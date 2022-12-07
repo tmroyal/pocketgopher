@@ -1,0 +1,7 @@
+{
+  "name": "pocketgopher",
+  "version": "0.0.1a",
+  "description": "A JS Midi Composition Utility",
+  "main": "index.js",
+  "license": "MIT"
+}
