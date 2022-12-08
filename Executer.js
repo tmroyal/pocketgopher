@@ -48,7 +48,7 @@ class Executer {
       const events = segment.getEventsAt(time);
       if (events.length) {
         events.forEach((event) => {
-          event.do();
+          event.do(); // whoops! That should be send to the midi thing
         });
       }
     });

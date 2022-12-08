@@ -1,4 +1,6 @@
 class Segment {
+  segments = [];
+  
   constructor(duration, startTime, executer){
     this.executer = executer;
     this.duration = duration;
@@ -6,10 +8,7 @@ class Segment {
   }
 
   addSegment(segment, props){
-  }
-
-  addGenerator(generator, props){
-    // do we need this? what we are trying to do is
+    // should we not inject our executor?
   }
 
   getEventsAt(time){
@@ -47,5 +46,17 @@ class Segment {
 
   render(){
     // we render each event and then sort
+    // is recursive
+  }
+}
+
+class Generator extends Segment {
+  constructor(method, duration, startTime, executer){
+    this.method = method;
+    super(duration, startTime, executer);
+  }
+
+  render(){
+    return this.method(this.segments);
   }
 }
