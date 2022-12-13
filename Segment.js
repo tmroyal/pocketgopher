@@ -7,6 +7,7 @@ class Segment {
     this.time = time || 0;
     this.segments = [];
     this.events = [];
+    this.playing = false;
   }
 
   addSegment(segment, time){
@@ -18,6 +19,9 @@ class Segment {
   }
 
   getEventsAt(time){
+    if (!this.playing){
+      return [];
+    }
     /* 
       - first, we store the incoming time
       - we will trigger all events that happened between 
@@ -30,6 +34,7 @@ class Segment {
 
   play(executer){
     this.render();
+    this.playing = true; 
     if (executer){
       executer.play(this);
     } else if (this.executer){
@@ -40,6 +45,7 @@ class Segment {
   }
 
   stop(executer){
+    this.playing = false;
     if (executer){
       executer.stop(this);
     } else if (this.executer){
