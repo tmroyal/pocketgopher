@@ -23,15 +23,15 @@ class Note extends Event {
       {
         type: 'noteon',
         channel: this.channel,
-        value1: this.note,
-        value2: this.velocity,
+        note: this.note,
+        velocity: this.velocity,
         time: this.time
       },
       {
         type: 'noteoff',
         channel: this.channel,
-        value1: this.note,
-        value2: this.velocity,
+        note: this.note,
+        velocity: this.velocity,
         time: this.time + this.duration
       }
     ]
@@ -54,15 +54,15 @@ class CC extends Event {
     return {
       type: 'cc',
       channel: this.channel,
-      value1: this.cc,
-      value2: this.value,
+      controller: this.cc,
+      value: this.value,
       time: this.time
     }
   }
 }
 
 class CCTrajectory extends Event {
-  consturctor({
+  constructor({
     time = 0,
     duration = 1,
     granularity = 1/60, // corresponds to step for renderer
@@ -90,8 +90,8 @@ class CCTrajectory extends Event {
       type: 'cc',
       time: this.time,
       channel: this.channel,
-      value1: this.cc,
-      value2: this.start
+      controller: this.cc,
+      value: this.start
     };
 
     while (loopTime < this.duration){

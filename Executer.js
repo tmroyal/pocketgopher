@@ -38,7 +38,8 @@ class Timer {
 }
 
 class Executer {
-  constructor(){
+  constructor(messenger){
+    this.messenger = messenger;
     if (this.constructor.name == 'Executer'){
       throw("Cannot instantiate 'virtual' class Executer")
     }
@@ -48,7 +49,7 @@ class Executer {
       const events = segment.getEventsAt(time);
       if (events.length) {
         events.forEach((event) => {
-          event.do(); // whoops! That should be send to the midi thing
+          this.messenger.message(event);
         });
       }
     });
@@ -79,6 +80,7 @@ class PlayExecuter extends Executer {
  * Record timer is like play timer, but
  * It uses a high precision timer to ensure
  * Proper MTC syncing
+    TODO: make as a singleton to avoid double MTC timer stuff
  */
 
 class RecordTimer extends Timer {

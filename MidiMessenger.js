@@ -1,22 +1,28 @@
+const easymidi = require('easymidi');
+
 class MidiMessenger {
   constructor(portName){
     this.portName = portName;
-  }
-
-  noteOn(channel, pitch, vel){
-
-  }
-
-  noteOff(channel, pitch, vel){
-
-  }
-
-  ctl(channel, ctl, val){
-
+    this.output = new easymidi.Output(portname, true)
   }
 
   panic(){
-    
+    for (let channel = 0; channel < 16; channel++){
+      for (let note = 0; note < 128; note++){
+        this.output.message('noteoff', {
+          note: note,
+          velocity: 64,
+          channel: channel
+        });
+      }
+    }
+  }
+
+  message(event){
+    const type = event.type;
+    delete event.type;
+    delete event.time;
+    this.output.message( type, event );
   }
 }
 

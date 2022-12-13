@@ -3,5 +3,15 @@
   "version": "0.0.1a",
   "description": "A JS Midi Composition Utility",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "easymidi": "^3.0.1"
+  },
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  }
 }
