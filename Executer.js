@@ -6,11 +6,11 @@ class Timer {
     this.start = 0;
     this.playing = false;
   }
-  play() {
+  play(time) {
     if (!this.tick){
       throw "Time.play: must call setTick before playing";
     }
-    this.start = performance.now();
+    this.start = performance.now()/1000.0 - (time || 0);
     this.playing = true;
     this.startTimer();
   }
@@ -25,7 +25,7 @@ class Timer {
     throw "Timer.stopTimer is not implemented";
   }
   getTime() {
-    return performance.now() - this.start;
+    return performance.now()/1000.0 - this.start;
   }
   setTick(cb) {
     this.tick = () => {
@@ -44,7 +44,7 @@ class Executer {
       throw("Cannot instantiate 'virtual' class Executer")
     }
   }
-  play(segment) {
+  play(segment, time) {
     this.timer.setTick((time) => {
       const events = segment.getEventsAt(time);
       if (events.length) {
@@ -53,8 +53,9 @@ class Executer {
         });
       }
     });
-    this.timer.play();
+    this.timer.play(time);
   }
+
   stop(segment) {
     this.timer.stop();
     this.timer.clearTick();
@@ -97,4 +98,9 @@ class RecordExecuter extends Executer {
     //this.timer = new RecordTimer();
   }
 
+}
+
+module.exports = {
+  PlayExecuter: PlayExecuter,
+  RecordExecuter: RecordExecuter
 }

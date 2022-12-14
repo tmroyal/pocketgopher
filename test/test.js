@@ -61,6 +61,24 @@ describe("segment", ()=>{
 
   })
   
+  it("should return events that fit within a timeframe", ()=>{
+    let par_seg = new Segment(0, 0);
+    let child_seg = new Generator(()=>{
+      return [{time: 1}, {time: 3}];
+    }, 0 , 0);
+    par_seg.addSegment(child_seg, 0);
+
+    par_seg.render();
+    par_seg.playing = true;
+    par_seg.getEventsAt(0);
+
+    assert.deepEqual(
+      par_seg.getEventsAt(2),
+      [{time:1}]
+    )
+
+  });
+  
 });
 
 describe("generator", ()=>{

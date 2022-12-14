@@ -1,6 +1,6 @@
 {
   "name": "pocketgopher",
-  "version": "0.0.1a",
+  "version": "0.0.1-alpha",
   "description": "A JS Midi Composition Utility",
   "main": "index.js",
   "license": "MIT",

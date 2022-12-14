@@ -8,6 +8,7 @@ class Segment {
     this.segments = [];
     this.events = [];
     this.playing = false;
+    this.eventTime = null;
   }
 
   addSegment(segment, time){
@@ -18,27 +19,33 @@ class Segment {
     return this;
   }
 
-  getEventsAt(time){
+  getEventsAt(endTime){
     if (!this.playing){
       return [];
     }
-    /* 
-      - first, we store the incoming time
-      - we will trigger all events that happened between 
-        prev time and incoming time
-      - we will need to consider an offset, as the time is zero based
-        but the segment might start later (yet all event times are rel to )
-      - we dont want to render all events if we start in medias res
-    */
+    let res = [];
+    if (this.eventTime === null){
+      this.eventTime = endTime;
+    } else {
+      res = this.events.filter((event)=>{
+        return event.time >= this.eventTime && event.time < endTime;
+      });
+      this.eventTime = endTime;
+    }
+    return res;
   }
 
-  play(executer){
+  play(executer, time){
+    if (this.playing){ return; }
+
     this.render();
+    this.eventTime = null;
     this.playing = true; 
+
     if (executer){
-      executer.play(this);
+      executer.play(this, time);
     } else if (this.executer){
-      this.executer.play(this);
+      this.executer.play(this, time);
     } else {
       throw "Segment.play: executer not defined";
     }

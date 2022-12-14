@@ -115,3 +115,9 @@ class CCTrajectory extends Event {
     return i*this.end + (1-i)*this.start;
   }
 }
+
+module.exports = {
+  Note: Note,
+  CC: CC,
+  CCTrajectory: CCTrajectory
+}
