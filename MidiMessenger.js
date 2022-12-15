@@ -3,7 +3,7 @@ const easymidi = require('easymidi');
 class MidiMessenger {
   constructor(portName){
     this.portName = portName;
-    this.output = new easymidi.Output(portname, true)
+    this.output = new easymidi.Output(portName, true)
   }
 
   panic(){
@@ -22,8 +22,10 @@ class MidiMessenger {
     const type = event.type;
     delete event.type;
     delete event.time;
-    this.output.message( type, event );
+    this.output.send( type, event );
   }
 }
 
-export default MidiMessenger;
+module.exports = {
+  MidiMessenger: MidiMessenger
+}

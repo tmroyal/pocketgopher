@@ -35,7 +35,7 @@ class Segment {
     return res;
   }
 
-  play(executer, time){
+  play(time, executer){
     if (this.playing){ return; }
 
     this.render();

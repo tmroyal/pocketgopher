@@ -1,7 +1,26 @@
+const EventTypes = require('./EventTypes');
+const Note = EventTypes.Note;
+const CC = EventTypes.CC;
+const CCTrajectory = EventTypes.CCTrajectory;
+const Executer = require('./Executer');
+const PlayExecuter = Executer.PlayExecuter;
+const SegmentLib = require('./Segment');
+const Segment = SegmentLib.Segment;
+const Generator = SegmentLib.Generator;
+const MakeGlobalMidiNodes = require('./MakeGlobalMidiNotes').MakeGlobalMidiNodes;
+const MidiMessenger = require('./MidiMessenger').MidiMessenger;
+
+
 module.exports = {
-    EventTypes: require('./EventTypes'),
-    Executer: require('./Executer'),
-    Segment: require('./Segment'),
-    MakeGlobalMidiNodes: require('./MakeGlobalMidiNotes'),
-    MidiMessenger: require('./MidiMessenger')
+    EventTypes,
+    Note,
+    CC,
+    CCTrajectory,
+    Executer,
+    PlayExecuter,
+    SegmentLib,
+    Segment,
+    Generator,
+    MakeGlobalMidiNodes,
+    MidiMessenger
 }

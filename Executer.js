@@ -72,7 +72,8 @@ class PlayTimer extends Timer {
 }
 
 class PlayExecuter extends Executer {
-  constructor(){
+  constructor(messenger){
+    super(messenger);
     this.timer = new PlayTimer();
   }
 }
