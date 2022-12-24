@@ -70,7 +70,7 @@ class CCTrajectory extends Event {
     end = 1,
     curve = 1,
     channel = 0,
-
+    cc = 64
   }) {
     if (curve <= 0 || granularity <= 0){
       throw "CCTrajectory(): curve and granularity must be greater than zero";
@@ -81,6 +81,7 @@ class CCTrajectory extends Event {
     this.start = start;
     this.end = end;
     this.curve = curve;
+    this.cc = cc;
   }
   
   render() {
@@ -96,11 +97,11 @@ class CCTrajectory extends Event {
 
     while (loopTime < this.duration){
       event.time = this.determineTime(loopTime);
-      event.value2 = this.determineValue(loopTime);
+      event.value = this.determineValue(loopTime);
 
       events.push(Object.assign({}, event));
 
-      time += this.granularity;
+      loopTime += this.granularity;
     }
 
     return events;
