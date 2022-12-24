@@ -1,9 +1,8 @@
 class Segment {
   segments = [];
   
-  constructor(duration, time, executer){
+  constructor(time, executer){
     this.executer = executer;
-    this.duration = duration;
     this.time = time || 0;
     this.segments = [];
     this.events = [];
@@ -77,8 +76,8 @@ class Segment {
 }
 
 class Generator extends Segment {
-  constructor(method, duration, startTime, executer){
-    super(duration, startTime, executer);
+  constructor(method, startTime, executer){
+    super(startTime, executer);
     this.method = method;
   }
 
