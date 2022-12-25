@@ -85,28 +85,41 @@ class Segment {
     return lastEvent.time;
   }
 
+  getAdjustedEvents(source, timeOffset) {
+    const adjustedEvents = source
+            .map(segment => segment.render())
+            .flat()
+            .sort((a,b)=>{
+              return a.time - b.time;
+            })
+            
+    adjustedEvents.forEach((ev)=>{
+      ev.time += timeOffset;
+    })
+
+  }
+
+  adjustEvents(events, offset) {
+    const newEvents = events.flat();
+    newEvents.sort((a,b)=>{
+      return a.time - b.time;
+    });
+    newEvents.forEach((ev)=>{
+      ev.time += offset;
+    })
+    return newEvents;
+  }
+
   render(){
     // first render everything in this.segments and
     // their children
-    this.events = this.segments
-      .map(segment=> segment.render())
-      .flat()
-      .sort((a,b)=>{
-        return a.time - b.time;
-      });
-    this.events.forEach((event)=>{
-      event.time += this.time;
-    });
+    this.events = this.adjustEvents(
+      this.segments.map(segment=> segment.render()),
+      this.time);
     // then, based on current duration, render each event
-    // TODO: refactor!!!!!
     this.appended.forEach((segment)=>{
       let lastEvTime = this.lastEventTime();
-      let appendedSegEvents = segment.render().flat().sort((a,b)=>{
-        return a.time - b.time;
-      });
-      appendedSegEvents.forEach((ev)=>{
-        ev.time += lastEvTime; 
-      });
+      let appendedSegEvents = this.adjustEvents(segment.render(), lastEvTime);
       this.events = this.events.concat(appendedSegEvents);
     });
 
