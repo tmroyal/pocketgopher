@@ -264,3 +264,27 @@ describe("Segment.append", ()=>{
     })
   });
 })
+
+describe("hasEventsAfter()", ()=>{
+  it("should return false if there are no events", ()=>{
+    const seg = new Segment();
+    assert.isFalse(seg.hasEventsAfter(1));
+  })
+
+  it("should return false if there are events but they occur before given time", ()=>{
+    const gen = new Generator(()=>{ return [{time:1}]});
+    const seg = new Segment();
+    seg.addSegment(gen);
+    seg.render();
+    assert.isFalse(seg.hasEventsAfter(2));
+  });
+
+  it("should return true if there are events that occur after given time", ()=>{
+    const gen = new Generator(()=>{ return [{time:1}]});
+    const seg = new Segment();
+    seg.addSegment(gen);
+    seg.render();
+    assert.isTrue(seg.hasEventsAfter(0));
+
+  });
+});

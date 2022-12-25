@@ -58,6 +58,10 @@ class Segment {
     }
   }
 
+  hasEventsAfter(time){
+    return time <= this.lastEventTime();
+  }
+
   stop(executer){
     this.playing = false;
     if (executer){
