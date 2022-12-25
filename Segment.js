@@ -5,6 +5,7 @@ class Segment {
     this.executer = executer;
     this.time = time || 0;
     this.segments = [];
+    this.appended = [];
     this.events = [];
     this.playing = false;
     this.eventTime = null;
@@ -18,6 +19,13 @@ class Segment {
     return this;
   }
 
+  append(segment){
+    const segmentCopy = { ...segment };
+    Object.setPrototypeOf(segmentCopy, Object.getPrototypeOf(segment));
+
+    this.appended.push(segmentCopy);
+  }
+  
   getEventsAt(endTime){
     if (!this.playing){
       return [];
@@ -67,22 +75,54 @@ class Segment {
       // if there are no events
       if (this.events.length == 0){ return 0; }
     }
-
-    const lastEvent = this.events[this.events.length - 1];
     // here, events are midi messages and the like, not notes or trajectories
-    return lastEvent.time - this.time;
+    return this.lastEventTime() - this.time;
+  }
+
+  lastEventTime(){
+    const lastEvent = this.events[this.events.length - 1];
+    if (!lastEvent){ return this.time;}
+    return lastEvent.time;
+  }
+
+  getAdjustedEvents(source, timeOffset) {
+    const adjustedEvents = source
+            .map(segment => segment.render())
+            .flat()
+            .sort((a,b)=>{
+              return a.time - b.time;
+            })
+            
+    adjustedEvents.forEach((ev)=>{
+      ev.time += timeOffset;
+    })
+
+  }
+
+  adjustEvents(events, offset) {
+    const newEvents = events.flat();
+    newEvents.sort((a,b)=>{
+      return a.time - b.time;
+    });
+    newEvents.forEach((ev)=>{
+      ev.time += offset;
+    })
+    return newEvents;
   }
 
   render(){
-    this.events = this.segments
-      .map(segment=> segment.render())
-      .flat()
-      .sort((a,b)=>{
-        return a.time - b.time;
-      });
-    this.events.forEach((event)=>{
-      event.time += this.time;
+    // first render everything in this.segments and
+    // their children
+    this.events = this.adjustEvents(
+      this.segments.map(segment=> segment.render()),
+      this.time);
+    // then, based on current duration, render each event
+    this.appended.forEach((segment)=>{
+      let lastEvTime = this.lastEventTime();
+      let appendedSegEvents = this.adjustEvents(segment.render(), lastEvTime);
+      this.events = this.events.concat(appendedSegEvents);
     });
+
     return this.events;
   }
 }
@@ -97,7 +137,9 @@ class Generator extends Segment {
     throw "Generator.addSegment: cannot nest segments in a generator";
   }
 
-
+  append(segment){
+    throw "Generator.append: cannot append segments to generator"
+  }
 
   render(){
     this.events = this.method(this)
