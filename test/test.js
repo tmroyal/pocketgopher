@@ -97,3 +97,50 @@ describe("generator", ()=>{
     assert.deepEqual(generator.render(), [{time: 6}]);
   });
 })
+
+describe("calculated duration", ()=>{
+  it("should return a proper duration for segments", ()=>{
+    let generator = new Generator(()=>{
+      return [{time: 1}];
+    }, 5);
+    let segment = new Segment(2);
+    segment.addSegment(generator);
+
+    assert.equal(segment.calculatedDuration(), 6)
+  });
+  it("should return a proper duration for generators", ()=>{
+    let generator = new Generator(()=>{
+      return [{time:1}];
+    }, 5)
+    assert.equal(generator.calculatedDuration(), 1);
+  });
+  it("should return a proper duration for multiple segments", ()=>{
+    let generator = new Generator(()=>{
+      return [{time:1}];
+    }, 2);
+  
+    let gen2 = new Generator(()=>{
+      return [{time:1}];
+    }, 3);
+  
+    let segment = new Segment();
+    segment.addSegment(generator);
+    segment.addSegment(gen2);
+
+    assert.equal(segment.calculatedDuration(), 4);
+  });
+  it("should return a proper duration for nested segments", ()=>{
+    let generator = new Generator(()=>{
+      return [{time:1}];
+    }, 2);
+  
+    let segment = new Segment();
+    let nestedSegment = new Segment(1);
+    nestedSegment.addSegment(generator);
+    segment.addSegment(nestedSegment);
+  
+    assert.equal(segment.calculatedDuration(), 4)
+
+  });
+
+});

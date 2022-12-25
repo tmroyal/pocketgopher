@@ -61,6 +61,18 @@ class Segment {
     }
   }
 
+  calculatedDuration(){
+    if (!this.events || !this.events.length){
+      this.render(); 
+      // if there are no events
+      if (this.events.length == 0){ return 0; }
+    }
+
+    const lastEvent = this.events[this.events.length - 1];
+    // here, events are midi messages and the like, not notes or trajectories
+    return lastEvent.time - this.time;
+  }
+
   render(){
     this.events = this.segments
       .map(segment=> segment.render())
@@ -85,17 +97,19 @@ class Generator extends Segment {
     throw "Generator.addSegment: cannot nest segments in a generator";
   }
 
+
+
   render(){
-    const events = this.method(this)
+    this.events = this.method(this)
           .flat()
           .sort((a,b)=>{
             return a.time - b.time;
           });
 
-    events.forEach((event)=>{
+    this.events.forEach((event)=>{
       event.time += this.time;
     });
-    return events;
+    return this.events;
   }
 }
 
