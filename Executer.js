@@ -52,6 +52,9 @@ class Executer {
           this.messenger.message(event);
         });
       }
+      if (!segment.hasEventsAfter(time)){
+        this.timer.stop();
+      }
     });
     this.timer.play(time);
   }
