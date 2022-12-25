@@ -7,7 +7,7 @@ const PlayExecuter = Executer.PlayExecuter;
 const SegmentLib = require('./Segment');
 const Segment = SegmentLib.Segment;
 const Generator = SegmentLib.Generator;
-const MakeGlobalMidiNodes = require('./MakeGlobalMidiNotes').MakeGlobalMidiNodes;
+const MakeGlobalMidiNotes = require('./MakeGlobalMidiNotes');
 const MidiMessenger = require('./MidiMessenger').MidiMessenger;
 
 
@@ -21,6 +21,6 @@ module.exports = {
     SegmentLib,
     Segment,
     Generator,
-    MakeGlobalMidiNodes,
+    MakeGlobalMidiNotes,
     MidiMessenger
 }

@@ -24,14 +24,14 @@ class Note extends Event {
         type: 'noteon',
         channel: this.channel,
         note: this.note,
-        velocity: this.velocity,
+        velocity: this.velocity * 127,
         time: this.time
       },
       {
         type: 'noteoff',
         channel: this.channel,
         note: this.note,
-        velocity: this.velocity,
+        velocity: this.velocity * 127,
         time: this.time + this.duration
       }
     ]
@@ -55,7 +55,7 @@ class CC extends Event {
       type: 'cc',
       channel: this.channel,
       controller: this.cc,
-      value: this.value,
+      value: this.value * 127,
       time: this.time
     }
   }
@@ -92,12 +92,12 @@ class CCTrajectory extends Event {
       time: this.time,
       channel: this.channel,
       controller: this.cc,
-      value: this.start
+      value: this.start * 127
     };
 
     while (loopTime < this.duration){
       event.time = this.determineTime(loopTime);
-      event.value = this.determineValue(loopTime);
+      event.value = this.determineValue(loopTime) * 127;
 
       events.push(Object.assign({}, event));
 

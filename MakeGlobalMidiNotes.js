@@ -17,7 +17,6 @@ module.exports = function MakeGlobalMidiNotes(midCOct){
   
     let oct = Math.floor(i/12) + diff;
   
-    console.log(i, note, noteSharp, noteFlat);
     if (note) {
       global[note+oct] = i;
     }
