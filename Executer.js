@@ -53,7 +53,7 @@ class Executer {
         });
       }
       if (!segment.hasEventsAfter(time)){
-        this.timer.stop();
+        this.stop();
       }
     });
     this.timer.play(time);
@@ -67,10 +67,10 @@ class Executer {
 
 class PlayTimer extends Timer {
   startTimer(){
-    setInterval(this.tick, 1);
+    this.intervalId = setInterval(this.tick, 1);
   }
   stopTimer(){
-    clearInterval(this.tick);
+    clearInterval(this.intervalId);
   }
 }
 
