@@ -117,8 +117,18 @@ class CCTrajectory extends Event {
   }
 }
 
+class Endpoint extends Event {
+  render(){
+    return {
+      type: 'endpoint',
+      time: this.time
+    }
+  }
+}
+
 module.exports = {
-  Note: Note,
-  CC: CC,
-  CCTrajectory: CCTrajectory
+  Note,
+  CC,
+  CCTrajectory,
+  Endpoint
 }
