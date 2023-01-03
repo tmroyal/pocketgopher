@@ -20,6 +20,10 @@ class MidiMessenger {
 
   message(event){
     const type = event.type;
+<<<<<<< HEAD
+=======
+    console.log(type);
+>>>>>>> 0ad0e79e5f44b138fb758bed20a778d5f2c1e8da
     if (type === 'endpoint'){ return; }
     delete event.type;
     delete event.time;
