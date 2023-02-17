@@ -82,6 +82,7 @@ class CCTrajectory extends Event {
     this.end = end;
     this.curve = curve;
     this.cc = cc;
+    this.channel = channel;
   }
   
   render() {
